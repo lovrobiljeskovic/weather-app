@@ -1,9 +1,10 @@
-## Available Scripts
-
 In the project directory, you can run:
 
-### `yarn start`
+### `npm install`
 
+to get all the modules and then run: 
+
+### `yarn start`
 
 ## Decisions behind the creation
 
