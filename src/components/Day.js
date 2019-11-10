@@ -50,7 +50,7 @@ class Day extends React.Component {
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <img className="img" src={process.env.PUBLIC_URL + img} alt="nibba" />
+                            <img className="img" src={process.env.PUBLIC_URL + img} alt="no pic lul" />
                         </Grid>
 
                         <Grid item>

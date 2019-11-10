@@ -34,8 +34,9 @@ class FiveDayForecast extends React.Component {
 
     render() {
         const { days } = this.state
+        console.log(days)
         return (
-            <Grid container justify="center" style={{ height: "100vh" }} alignItems="center" direction="row" spacing={2}>
+            <Grid container justify="center" style={{ height: "100vh" }} alignItems="center" wrap="nowrap" direction="row" spacing={2}>
                 {
                     Object.entries(days).map((entry, idx) => {
                         const img = imgs[idx];
@@ -45,7 +46,6 @@ class FiveDayForecast extends React.Component {
                                     dayOfTheWeek={entry[0]}
                                     data={entry[1]}
                                     img={img}
-                                    test={this.state}
                                 />
                             </Grid>
                         )
