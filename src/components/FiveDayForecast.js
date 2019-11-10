@@ -1,22 +1,30 @@
 import React from 'react';
 import Day from './Day';
-import {weekdays, temps, img} from '../constants'
-import {Grid, Typography, Paper} from '@material-ui/core'
-import axios from 'axios'
+import {imgs} from '../constants'
+import { Grid } from '@material-ui/core'
+import moment from 'moment'
 
 class FiveDayForecast extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
-            data: []
+            days: {}
         }
     }
-    
+
     fetchData = async () => {
-        const response = await fetch("https://samples.openweathermap.org/data/2.5/forecast?q=M%C3%BCnchen,DE&appid=b6907d289e10d714a6e88b30761fae22");
+        const response = await fetch("http://api.openweathermap.org/data/2.5/forecast?q=Copenhagen,DK&units=metric&appid=e32189b1c0b6fa5ca3b2ffeab43b9af4");
         const myJson = await response.json();
-        console.log(JSON.stringify(myJson));
+        const days = {}
+        for (const partOfDay of myJson.list) {
+            const dayOfWeek = moment(partOfDay.dt_txt).format('dddd')
+            dayOfWeek in days || (days[dayOfWeek] = [])
+            days[dayOfWeek].push(partOfDay)
+        }
+        this.setState({
+            days
+        })
     }
 
     componentDidMount() {
@@ -25,22 +33,25 @@ class FiveDayForecast extends React.Component {
 
 
     render() {
+        const { days } = this.state
         return (
-        <Grid container justify="center" style={{height:"100vh"}} alignItems="center"direction="row" spacing={2}>
-            {
-                weekdays.map((day, idx) => {
-                    return (
-                        <Grid item key={idx}>
-                            <Day
-                                dayOfTheWeek={day}
-                                temperature={temps[idx]}
-                                img={img}
-                            />
-                        </Grid>
-                    )
-                })
-            }
-        </Grid>
+            <Grid container justify="center" style={{ height: "100vh" }} alignItems="center" direction="row" spacing={2}>
+                {
+                    Object.entries(days).map((entry, idx) => {
+                        const img = imgs[idx];
+                        return (
+                            <Grid item key={idx}>
+                                <Day
+                                    dayOfTheWeek={entry[0]}
+                                    data={entry[1]}
+                                    img={img}
+                                    test={this.state}
+                                />
+                            </Grid>
+                        )
+                    })
+                }
+            </Grid>
         );
     }
 }
